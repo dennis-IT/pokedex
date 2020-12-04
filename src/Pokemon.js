@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react'
 //import mockData from './mockData';
 import { Typography, Link, Button, CircularProgress } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles'
 import { toFirstCharUppercase } from './Utils';
 import Axios from 'axios';
+
+const useStyles = makeStyles(() => ({
+    root: {
+        margin: "20px 20px"
+    }
+}));
 
 const Pokemon = (props) => {
     const { match: { params }, history } = props;
     const [pokemon, setPokemon] = useState(undefined);
+    const classes = useStyles();
 
     //!NOTE:
     //There are 3 states:
@@ -31,7 +39,7 @@ const Pokemon = (props) => {
         const { front_default } = sprites;
 
         return (
-            <React.Fragment>
+            <>
                 <Typography variant='h1'>
                     {`${id}.`} {toFirstCharUppercase(name)}
                     <img src={front_default} alt={name} />
@@ -53,12 +61,12 @@ const Pokemon = (props) => {
                     )
                 })}
                 </Typography>
-            </React.Fragment>
+            </>
         )
     }
 
     return (
-        <React.Fragment>
+        <div className={classes.root}>
             {pokemon === undefined && <CircularProgress />}
             {pokemon !== undefined && pokemon && generatePokemonJSX()}
             {pokemon === false && <Typography>Pokemon not found</Typography>}
@@ -66,7 +74,7 @@ const Pokemon = (props) => {
             <Button variant="contained" disableElevation color="secondary" onClick={() => history.push("/")}>
                 Back to Pokedex
             </Button>
-        </React.Fragment>
+        </div>
     );
 }
 
